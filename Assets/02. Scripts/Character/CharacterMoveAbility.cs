@@ -4,6 +4,7 @@ using System.Net.NetworkInformation;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
 // 유니티 안에만 있는 특별한 기능,
 // 캐릭터 컨트롤러가 달려있어야만 이 해당 스크립트가 실행 됨
 public class CharacterMoveAbility : MonoBehaviour
@@ -14,9 +15,12 @@ public class CharacterMoveAbility : MonoBehaviour
     private float _gravity = -10;
     private float _yVelocity;
     private CharacterController _characterController;
+    private Animator _animator;
+
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
     }
     private void Update()
     {
@@ -33,12 +37,13 @@ public class CharacterMoveAbility : MonoBehaviour
         Vector3 dir = new Vector3 (h, 0, v);
         dir.Normalize();
         dir = Camera.main.transform.TransformDirection(dir);
-
+        _animator.SetFloat("Move", dir.magnitude);
         _yVelocity += _gravity * Time.deltaTime;
 
         dir.y = _yVelocity;
 
         _characterController.Move(dir * _moveSpeed * Time.deltaTime);
+
 
     }
 }
