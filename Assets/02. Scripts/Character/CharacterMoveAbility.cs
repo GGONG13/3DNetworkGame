@@ -7,15 +7,15 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 // 유니티 안에만 있는 특별한 기능,
 // 캐릭터 컨트롤러가 달려있어야만 이 해당 스크립트가 실행 됨
-public class CharacterMoveAbility : MonoBehaviour
+public class CharacterMoveAbility : CharacterAbility
 {
     // 목표: W,A,S,D 및 방향키를 누르면 캐릭터를 그 방향으로 이동시키고 싶다.
 
-    private float _moveSpeed = 5;
     private float _gravity = -10;
     private float _yVelocity;
     private CharacterController _characterController;
     private Animator _animator;
+
 
     private void Start()
     {
@@ -42,8 +42,6 @@ public class CharacterMoveAbility : MonoBehaviour
 
         dir.y = _yVelocity;
 
-        _characterController.Move(dir * _moveSpeed * Time.deltaTime);
-
-
+        _characterController.Move(dir * Owner.stat.MoveSpeed * Time.deltaTime);
     }
 }

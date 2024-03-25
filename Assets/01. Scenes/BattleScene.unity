@@ -17165,6 +17165,7 @@ GameObject:
   - component: {fileID: 3369695347845812222}
   - component: {fileID: 3369695347845812223}
   - component: {fileID: 3369695347845812224}
+  - component: {fileID: 3369695347845812225}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -17223,7 +17224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraRoot: {fileID: 46338337}
-  RotationSpeed: 200
 --- !u!114 &3369695347845812224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17236,6 +17236,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4ca0e43961153438397c70afb80930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3369695347845812225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3369695347845812220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82f2012494caf1459a243caef472735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    Health: 100
+    MoveSpeed: 7
+    RotationSpeed: 200
+    AttactCoolTime: 1
 --- !u!4 &3397143534395416927
 Transform:
   m_ObjectHideFlags: 0
