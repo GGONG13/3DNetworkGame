@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class CharacterAttackAbility : CharacterAbility
 {
@@ -22,11 +23,16 @@ public class CharacterAttackAbility : CharacterAbility
     void Update()
     {
         _timer += Time.deltaTime;
-
-        if (Input.GetMouseButtonDown(0) && _timer >= Owner.stat.AttactCoolTime)
+        if (Input.GetMouseButtonDown(0) && _timer >= Owner.stat.AttactCoolTime && Owner.stat.Stamina >= 20)
         {
             _animator.SetTrigger($"Attack{Random.Range(1, 4)}");
             _timer = 0f;
+            Owner.stat.Stamina -= 20;
+            if (Owner.stat.Stamina <= 0)
+            {
+               // Owner.stat.Stamina = 0;
+                _animator.SetFloat("Move", 0);
+            }
         }
     }
 }

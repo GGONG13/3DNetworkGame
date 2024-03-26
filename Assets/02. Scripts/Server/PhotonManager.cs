@@ -81,6 +81,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.PlayerCount}");
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.MaxPlayers}");
+
+        PhotonNetwork.Instantiate("Character", Vector3.zero, Quaternion.identity);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

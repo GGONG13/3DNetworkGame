@@ -1,5 +1,7 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -9,6 +11,12 @@ public class CharacterRotateAbility : CharacterAbility
     public Transform CameraRoot;
     private float _mx;
     private float _my;
+
+    private void Start()
+    {
+        GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
+    }
+
     void Update()
     {
         // 1. 마우스 입력 값을 받는다.

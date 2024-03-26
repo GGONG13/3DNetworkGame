@@ -380,6 +380,7 @@
 "Assets/02. Scripts/Character/CharacterRotateAbility.cs"
 "Assets/02. Scripts/Common/Stat.cs"
 "Assets/02. Scripts/Server/PhotonManager.cs"
+"Assets/02. Scripts/UI/UI_CharacterStat.cs"
 "Assets/Photon/PhotonChat/Demos/Common/EventSystemSpawner.cs"
 "Assets/Photon/PhotonChat/Demos/Common/OnStartDelete.cs"
 "Assets/Photon/PhotonChat/Demos/Common/TextButtonTransition.cs"

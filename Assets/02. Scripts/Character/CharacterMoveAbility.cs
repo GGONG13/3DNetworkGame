@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -9,13 +10,14 @@ using UnityEngine;
 // 캐릭터 컨트롤러가 달려있어야만 이 해당 스크립트가 실행 됨
 public class CharacterMoveAbility : CharacterAbility
 {
+
+
     // 목표: W,A,S,D 및 방향키를 누르면 캐릭터를 그 방향으로 이동시키고 싶다.
 
     private float _gravity = -10;
     private float _yVelocity;
     private CharacterController _characterController;
     private Animator _animator;
-
 
     private void Start()
     {
@@ -24,13 +26,6 @@ public class CharacterMoveAbility : CharacterAbility
     }
     private void Update()
     {
-        // 순서
-        // 1. 사용자의 키보드 입력을 받는다
-        // 2. '캐릭터가 바라보는 방향'을 기준으로 방향을 설정한다.
-        // 3. 이동속도에 따라 그 방향으로 이동한다.
-
-        // 4. 중력 적용
-
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
@@ -42,6 +37,22 @@ public class CharacterMoveAbility : CharacterAbility
 
         dir.y = _yVelocity;
 
-        _characterController.Move(dir * Owner.stat.MoveSpeed * Time.deltaTime);
+        float Speed = Owner.stat.MoveSpeed;
+        if (Input.GetKey(KeyCode.LeftShift) && Owner.stat.Stamina > 1)
+        {
+            Speed = Owner.stat.RunSpeed;
+            Owner.stat.Stamina -= Owner.stat.RunConsumeStamina * Time.deltaTime;
+            if (Owner.stat.Stamina <= 0)
+            {
+                Owner.stat.Stamina = 0;
+            }
+        }
+        else
+        {
+            Speed = Owner.stat.MoveSpeed;
+            Owner.stat.Stamina += Owner.stat.RecoveryStamina * Time.deltaTime;
+            Owner.stat.Stamina = Mathf.Min(Owner.stat.Stamina, Owner.stat.MaxStamina);
+        }
+        _characterController.Move(dir * Speed * Time.deltaTime);
     }
 }
