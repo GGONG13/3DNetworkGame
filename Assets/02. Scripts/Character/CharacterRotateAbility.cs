@@ -14,11 +14,18 @@ public class CharacterRotateAbility : CharacterAbility
 
     private void Start()
     {
-        GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
+        if (Owner.Photonview.IsMine)
+        {
+            GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
+        }
     }
 
     void Update()
     {
+        if (!Owner.Photonview.IsMine)
+        {
+            return;
+        }
         // 1. 마우스 입력 값을 받는다.
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");

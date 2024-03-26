@@ -22,6 +22,11 @@ public class CharacterAttackAbility : CharacterAbility
     }
     void Update()
     {
+        if (!Owner.Photonview.IsMine)
+        {
+            return;
+        }
+
         _timer += Time.deltaTime;
         if (Input.GetMouseButtonDown(0) && _timer >= Owner.stat.AttactCoolTime && Owner.stat.Stamina >= 20)
         {

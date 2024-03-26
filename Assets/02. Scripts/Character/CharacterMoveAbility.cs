@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
@@ -23,9 +24,15 @@ public class CharacterMoveAbility : CharacterAbility
     {
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+
     }
     private void Update()
     {
+        if (!Owner.Photonview.IsMine)
+        {
+            return;
+        }
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
