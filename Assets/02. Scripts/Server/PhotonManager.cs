@@ -21,6 +21,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         // 3. 씬을 설정한다.
         // 4. 연결한다.
         PhotonNetwork.ConnectUsingSettings();
+
+        PhotonNetwork.SendRate = 30;
+        PhotonNetwork.SerializationRate = 30;
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

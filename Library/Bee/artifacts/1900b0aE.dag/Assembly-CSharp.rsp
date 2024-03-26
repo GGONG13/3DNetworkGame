@@ -376,6 +376,8 @@
 "Assets/02. Scripts/Character/Character.cs"
 "Assets/02. Scripts/Character/CharacterAbility.cs"
 "Assets/02. Scripts/Character/CharacterAttackAbility.cs"
+"Assets/02. Scripts/Character/CharacterCanvasAbility.cs"
+"Assets/02. Scripts/Character/CharacterMinimap.cs"
 "Assets/02. Scripts/Character/CharacterMoveAbility.cs"
 "Assets/02. Scripts/Character/CharacterRotateAbility.cs"
 "Assets/02. Scripts/Common/Stat.cs"
