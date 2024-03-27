@@ -61,15 +61,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoRotate.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterAbility.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\AppSettingsExtensions.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\02. Scripts\UI\UI_CharacterStat.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_New.cs" />
     <Compile Include="Assets\02. Scripts\Weapon\Weapon.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterMoveAbility.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatGui.cs" />
     <Compile Include="Assets\02. Scripts\Common\Stat.cs" />
     <Compile Include="Assets\Photon\PhotonLibs\WebSocket\WebSocket.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightFlicker.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDir.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChannelSelector.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatAppIdCheckerUI.cs" />
     <Compile Include="Assets\02. Scripts\Common\IDamaged.cs" />
@@ -78,7 +84,9 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextToggleIsOnTransition.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\FriendItem.cs" />
     <Compile Include="Assets\02. Scripts\Character\Character.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RotateCamera.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterCanvasAbility.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoDestructShuriken.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterRotateAbility.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\EventSystemSpawner.cs" />
@@ -86,22 +94,33 @@
     <Compile Include="Assets\Photon\PhotonLibs\WebSocket\SocketWebTcp.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextButtonTransition.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_Translate.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
+    <None Include="Assets\JMO Assets\Cartoon FX (legacy)\Shaders\CFX3 Multiply Color.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_SETTINGS.cginc" />
+    <None Include="Assets\JMO Assets\Cartoon FX (legacy)\CartoonFX Free.txt" />
     <None Include="Assets\Fantasy Skybox FREE\Readme.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR.cginc" />
     <None Include="Assets\Photon\PhotonLibs\WebSocket\websocket-sharp.dll" />
     <None Include="Assets\Fantasy Skybox FREE\ReleaseNotes.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX Remaster\Readme Cartoon FX Remaster FREE.txt" />
     <None Include="Assets\Photon\PhotonLibs\changes-library.txt" />
     <None Include="Assets\Photon\PhotonUnityNetworking\readme.txt" />
     <None Include="Assets\Photon\PhotonChat\Demos\DemoChat\Files\eurof_tt.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Prefabs\Texts\_Make your own text effect.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_PASSES.cginc" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.dll" />
     <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.dll" />
     <None Include="Assets\Photon\PhotonLibs\Metro\Photon3Unity3D.dll" />
     <None Include="Assets\SimpleLowPolyNature\Readme.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX (legacy)\Shaders\CFXM_MobileParticleAdd_Alpha8.shader" />
     <None Include="Assets\SimpleLowPolyNature\Shaders\SimpleWater.shader" />
     <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.xml" />
+    <None Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Shaders\CFXR_URP.cginc" />
     <None Include="Assets\Photon\PhotonUnityNetworking\link.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -1021,12 +1040,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TestTools.CodeCoverage.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
@@ -1055,6 +1074,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="CFXR.WelcomeScreen.csproj">
+      <Project>{E0357347-4D11-2B60-36E9-3EB5834839C5}</Project>
+      <Name>CFXR.WelcomeScreen</Name>
+    </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
       <Project>{2A50F97D-7070-E65E-C5CD-D44C59E6D592}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
@@ -1062,6 +1085,10 @@
     <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
       <Project>{7D661105-64A5-1B16-D24D-639D23ECB4A6}</Project>
       <Name>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="KinoBloom.Runtime.csproj">
+      <Project>{1FAE4DC6-35AB-6580-B62A-69F73FAA5C96}</Project>
+      <Name>KinoBloom.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoSlotcarEditor.csproj">
       <Project>{6914D7AB-00DE-5EAB-D4EC-C0E7D6707D64}</Project>
@@ -1075,6 +1102,14 @@
       <Project>{F9818A11-9C31-CB6C-3751-85E73C83A3BE}</Project>
       <Name>PhotonChat</Name>
     </ProjectReference>
+    <ProjectReference Include="ToonyColorsPro.Demo.Editor.csproj">
+      <Project>{35BFFAE8-0EF2-3EEF-F21B-828AEDC598C0}</Project>
+      <Name>ToonyColorsPro.Demo.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="CFXRRuntime.csproj">
+      <Project>{CC70C593-CBD1-10A6-606F-7AD7B1F0AEDB}</Project>
+      <Name>CFXRRuntime</Name>
+    </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
       <Project>{F04341EE-227D-F0A7-4F75-ABA4ED641BF1}</Project>
       <Name>PhotonUnityNetworking</Name>
@@ -1082,6 +1117,14 @@
     <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
       <Project>{494EE172-EFE8-88C2-D625-77DCCD106602}</Project>
       <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="CFXREditor.csproj">
+      <Project>{B6F7297A-69E6-3501-4AD8-AB6601C05A38}</Project>
+      <Name>CFXREditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="CFXRDemo.csproj">
+      <Project>{FE6FE9D9-871A-2ADB-CAA9-E782E9534DC0}</Project>
+      <Name>CFXRDemo</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Demos.csproj">
       <Project>{720EBB8D-B8AD-C54D-F5CA-3B12E42CF7A9}</Project>

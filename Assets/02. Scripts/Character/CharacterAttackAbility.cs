@@ -5,6 +5,7 @@ using static UnityEngine.UI.GridLayoutGroup;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEditor;
+using UnityEngine.UIElements;
 
 public class CharacterAttackAbility : CharacterAbility
 {
@@ -19,6 +20,11 @@ public class CharacterAttackAbility : CharacterAbility
     
     private Animator _animator;
     private float _timer;
+
+    public Collider WeaponCollider;
+    public GameObject HitPrefabs;
+    // 때린 애들을 기억하는 리스트
+    private List<IDamaged> _damagedList = new List<IDamaged>();
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -60,16 +66,42 @@ public class CharacterAttackAbility : CharacterAbility
         // SOLID - O : 개방-폐쇄 원칙 (OCP; Open-Closed Principle)
         //           + 인터페이스
         // 수정에는 닫혀있고, 확장에는 열려있다.
+
+        Vector3 hitPosition = (other.transform.position + transform.position) / 2f;
         IDamaged obj = other.GetComponent<IDamaged>();
         if (obj != null)
         {
+            // 내가 이미 때렸던 애라면? 안때리겠다
+            if (_damagedList.Contains(obj))
+            {
+                return;
+            }
+            // 안 맞은 애면 때린 리스트에 추가
+            _damagedList.Add(obj);
+
             PhotonView photonView = other.GetComponent<PhotonView>();
             if (photonView != null) 
             {
                 photonView.RPC("Damaged", RpcTarget.All, Owner.stat.Damage);
                 // 그래서 포톤뷰, RPC로 다시 동기화 하는 것
+                photonView.RPC("HitEffect", RpcTarget.All, hitPosition);    
+
             }
            // obj.Damaged(Owner.stat.Damage); 이렇게하면 제대로 동기화가 X
         }
+    }
+    [PunRPC]
+    public void HitEffect(Vector3 HitPosition)
+    {
+        Instantiate(HitPrefabs, HitPosition, Quaternion.identity);
+    }
+    public void ActiveCollider()
+    {
+        WeaponCollider.enabled = true;
+    }
+    public void InactiveCollider()
+    {
+        WeaponCollider.enabled = false;
+        _damagedList.Clear();
     }
 }

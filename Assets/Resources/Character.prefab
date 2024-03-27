@@ -954,6 +954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4ca0e43961153438397c70afb80930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponCollider: {fileID: 4003430499259094253}
+  HitPrefabs: {fileID: 1727626132299242, guid: b0bc1b6b391734647b9bb142bafc0819, type: 3}
 --- !u!114 &6771966341764440775
 MonoBehaviour:
   m_ObjectHideFlags: 0

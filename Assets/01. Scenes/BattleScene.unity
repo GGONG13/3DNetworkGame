@@ -12428,6 +12428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c877d587c2fbd5b4b97535c4264f9228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyCharacter: {fileID: 6771966341764440775, guid: 72621d14802b70644a8ee1740f053f8a, type: 3}
+  YDistance: 10
+  RotationSpeed: 500
 --- !u!81 &1522139348
 AudioListener:
   m_ObjectHideFlags: 0
@@ -12495,13 +12498,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522139346}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &1523085150 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6463103279978990837, guid: 87b04a6b131597e4db952f9810390439, type: 3}

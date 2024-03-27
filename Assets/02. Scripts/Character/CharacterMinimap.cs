@@ -5,39 +5,43 @@ using UnityEngine;
 
 public class CharacterMinimap : MonoBehaviour
 {
-    private Transform target;
-    private float YDistance = 10f;
+    public static CharacterMinimap instance { get; private set; }
+    public Character MyCharacter;
 
-    void Start()
+
+
+    public float YDistance = 10f;
+    private Vector3 _initialEulerAngles;
+
+    //private float _mx = 0;
+    //private float _my = 0;
+
+    public float RotationSpeed = 500;
+
+    private void Awake()
     {
-        FindLocalPlayer();
+        instance = this;
     }
 
-    void FindLocalPlayer()
+    private void Start()
     {
-        PhotonView[] photonViews = FindObjectsOfType<PhotonView>();
-        foreach (PhotonView view in photonViews)
+        _initialEulerAngles = transform.eulerAngles;
+    }
+    private void LateUpdate()
+    {
+        if (MyCharacter == null)
         {
-            if (view.IsMine)
-            {
-                target = view.transform;
-                break;
-            }
+            return;
         }
+        Vector3 targetPosition = MyCharacter.transform.position;
+        targetPosition.y = YDistance;
+
+        transform.position = targetPosition;
+
+        Vector3 targetEulerAngles = MyCharacter.transform.eulerAngles;
+        targetEulerAngles.x = _initialEulerAngles.x;
+        targetEulerAngles.z = _initialEulerAngles.z;
+        transform.eulerAngles = targetEulerAngles;
     }
 
-    void Update()
-    {
-        if (target != null)
-        {
-            Vector3 targetPosition = target.position;
-            targetPosition.y = YDistance;
-            transform.position = targetPosition;
-            transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        }
-        else
-        {
-            FindLocalPlayer(); // 타겟을 다시 찾음
-        }
-    }
 }

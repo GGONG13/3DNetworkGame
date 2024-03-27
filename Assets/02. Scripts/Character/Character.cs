@@ -11,7 +11,6 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
 {
     public Stat stat;
     public PhotonView Photonview { get; private set; }
-
     private Vector3 _receivedPosition;
     private Quaternion _receivedRotaion;
 
@@ -23,6 +22,7 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
         {
             UI_CharacterStat.instance.MyCharacter = this;
         }
+        CharacterMinimap.instance.MyCharacter = this;
     }
 
     private void Update()
