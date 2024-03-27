@@ -19,6 +19,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         // 2. 닉네임을 설정한다.
         PhotonNetwork.NickName = $"공지수_{UnityEngine.Random.Range(0, 100)}";
         // 3. 씬을 설정한다.
+
         // 4. 연결한다.
         PhotonNetwork.ConnectUsingSettings();
 
@@ -85,7 +86,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.PlayerCount}");
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.MaxPlayers}");
 
-        PhotonNetwork.Instantiate("Character", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate(nameof(Character), Vector3.zero, Quaternion.identity);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

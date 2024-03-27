@@ -21,6 +21,7 @@ public class Stat
 
     public float AttactCoolTime;
     public float AttackConsumeStamina = 20;
+    public int Damage = 10;
 
     public void Init()
     {

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.UI.GridLayoutGroup;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEditor;
 
 public class CharacterAttackAbility : CharacterAbility
 {
@@ -30,14 +33,43 @@ public class CharacterAttackAbility : CharacterAbility
         _timer += Time.deltaTime;
         if (Input.GetMouseButtonDown(0) && _timer >= Owner.stat.AttactCoolTime && Owner.stat.Stamina >= 20)
         {
-            _animator.SetTrigger($"Attack{Random.Range(1, 4)}");
+            Owner.Photonview.RPC(nameof(PlayAttackAnimaition), RpcTarget.All, Random.Range(1,4));
+            // RpcTarget.All : 모두에게
+            // RpcTarget.Others : 나 자신을 제외하고 모두에게
+            // RpcTarget.Master : 방장에게만
             _timer = 0f;
             Owner.stat.Stamina -= 20;
             if (Owner.stat.Stamina <= 0)
             {
-               // Owner.stat.Stamina = 0;
                 _animator.SetFloat("Move", 0);
             }
+        }
+    }
+    [PunRPC]
+    public void PlayAttackAnimaition(int index)
+    {
+        _animator.SetTrigger($"Attack{index}");
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (Owner.Photonview.IsMine == false || other.transform == transform)
+        {
+            return;
+        }
+        // SOLID - O : 개방-폐쇄 원칙 (OCP; Open-Closed Principle)
+        //           + 인터페이스
+        // 수정에는 닫혀있고, 확장에는 열려있다.
+        IDamaged obj = other.GetComponent<IDamaged>();
+        if (obj != null)
+        {
+            PhotonView photonView = other.GetComponent<PhotonView>();
+            if (photonView != null) 
+            {
+                photonView.RPC("Damaged", RpcTarget.All, Owner.stat.Damage);
+                // 그래서 포톤뷰, RPC로 다시 동기화 하는 것
+            }
+           // obj.Damaged(Owner.stat.Damage); 이렇게하면 제대로 동기화가 X
         }
     }
 }
