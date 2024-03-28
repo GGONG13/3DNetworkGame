@@ -83,8 +83,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.PlayerCount}");
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.MaxPlayers}");
+        CharacterRandomSpawner spawnManager = FindObjectOfType<CharacterRandomSpawner>();
 
-        PhotonNetwork.Instantiate(nameof(Character), Vector3.zero, Quaternion.identity);
+        int index = Random.Range(0, spawnManager.SpawnPoints.Length);
+        Vector3 spawnPosition = spawnManager.SpawnPoints[index].position;
+        spawnPosition.y = 0; // 지면 높이에 맞춰 y 값 조정
+
+        PhotonNetwork.Instantiate(nameof(Character), spawnPosition, Quaternion.identity);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

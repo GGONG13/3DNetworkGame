@@ -385,6 +385,7 @@
 "Assets/02. Scripts/Character/CharacterCanvasAbility.cs"
 "Assets/02. Scripts/Character/CharacterMinimap.cs"
 "Assets/02. Scripts/Character/CharacterMoveAbility.cs"
+"Assets/02. Scripts/Character/CharacterRandomSpawner.cs"
 "Assets/02. Scripts/Character/CharacterRotateAbility.cs"
 "Assets/02. Scripts/Character/CharacterShakeAbility.cs"
 "Assets/02. Scripts/Common/IDamaged.cs"

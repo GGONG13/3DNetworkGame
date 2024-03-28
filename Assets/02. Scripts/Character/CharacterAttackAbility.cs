@@ -15,7 +15,7 @@ public class CharacterAttackAbility : CharacterAbility
     
     private Animator _animator;
     private float _timer;
-
+    private Character _character;
     public Collider WeaponCollider;
     public GameObject HitPrefabs;
     // 때린 애들을 기억하는 리스트
@@ -25,6 +25,7 @@ public class CharacterAttackAbility : CharacterAbility
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _character = GetComponent<Character>();
     }
     void Update()
     {
@@ -34,17 +35,20 @@ public class CharacterAttackAbility : CharacterAbility
         }
 
         _timer += Time.deltaTime;
-        if (Input.GetMouseButtonDown(0) && _timer >= Owner.stat.AttactCoolTime && Owner.stat.Stamina >= 20)
+        if (_character.currentState == CharacterState.Live)
         {
-            Owner.Photonview.RPC(nameof(PlayAttackAnimaition), RpcTarget.All, Random.Range(1,4));
-            // RpcTarget.All : 모두에게
-            // RpcTarget.Others : 나 자신을 제외하고 모두에게
-            // RpcTarget.Master : 방장에게만
-            _timer = 0f;
-            Owner.stat.Stamina -= 20;
-            if (Owner.stat.Stamina <= 0)
+            if (Input.GetMouseButtonDown(0) && _timer >= Owner.stat.AttactCoolTime && Owner.stat.Stamina >= 20)
             {
-                _animator.SetFloat("Move", 0);
+                Owner.Photonview.RPC(nameof(PlayAttackAnimaition), RpcTarget.All, Random.Range(1, 4));
+                // RpcTarget.All : 모두에게
+                // RpcTarget.Others : 나 자신을 제외하고 모두에게
+                // RpcTarget.Master : 방장에게만
+                _timer = 0f;
+                Owner.stat.Stamina -= 20;
+                if (Owner.stat.Stamina <= 0)
+                {
+                    _animator.SetFloat("Move", 0);
+                }
             }
         }
     }
@@ -77,6 +81,10 @@ public class CharacterAttackAbility : CharacterAbility
             _damagedList.Add(obj);
 
             PhotonView photonView = other.GetComponent<PhotonView>();
+            if (!photonView.IsMine && _character.currentState == CharacterState.Death)
+            {
+                return;
+            }
             if (photonView != null) 
             {
                 Vector3 hitPosition = (other.transform.position + transform.position) / 2f + new Vector3(0f, 1f, 0f);

@@ -12,12 +12,12 @@ public class CharacterMoveAbility : CharacterAbility
     private float _yVelocity;
     private CharacterController _characterController;
     private Animator _animator;
-
+    private Character _character;
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
-
+        _character = GetComponent<Character>();
     }
     private void Update()
     {
@@ -25,34 +25,36 @@ public class CharacterMoveAbility : CharacterAbility
         {
             return;
         }
-
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-
-        Vector3 dir = new Vector3 (h, 0, v);
-        dir.Normalize();
-        dir = Camera.main.transform.TransformDirection(dir);
-        _animator.SetFloat("Move", dir.magnitude);
-        _yVelocity += _gravity * Time.deltaTime;
-
-        dir.y = _yVelocity;
-
-        float Speed = Owner.stat.MoveSpeed;
-        if (Input.GetKey(KeyCode.LeftShift) && Owner.stat.Stamina > 1)
+        if (_character.currentState == CharacterState.Live)
         {
-            Speed = Owner.stat.RunSpeed;
-            Owner.stat.Stamina -= Owner.stat.RunConsumeStamina * Time.deltaTime;
-            if (Owner.stat.Stamina <= 0)
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+
+            Vector3 dir = new Vector3(h, 0, v);
+            dir.Normalize();
+            dir = Camera.main.transform.TransformDirection(dir);
+            _animator.SetFloat("Move", dir.magnitude);
+            _yVelocity += _gravity * Time.deltaTime;
+
+            dir.y = _yVelocity;
+
+            float Speed = Owner.stat.MoveSpeed;
+            if (Input.GetKey(KeyCode.LeftShift) && Owner.stat.Stamina > 1)
             {
-                Owner.stat.Stamina = 0;
+                Speed = Owner.stat.RunSpeed;
+                Owner.stat.Stamina -= Owner.stat.RunConsumeStamina * Time.deltaTime;
+                if (Owner.stat.Stamina <= 0)
+                {
+                    Owner.stat.Stamina = 0;
+                }
             }
+            else
+            {
+                Speed = Owner.stat.MoveSpeed;
+                Owner.stat.Stamina += Owner.stat.RecoveryStamina * Time.deltaTime;
+                Owner.stat.Stamina = Mathf.Min(Owner.stat.Stamina, Owner.stat.MaxStamina);
+            }
+            _characterController.Move(dir * Speed * Time.deltaTime);
         }
-        else
-        {
-            Speed = Owner.stat.MoveSpeed;
-            Owner.stat.Stamina += Owner.stat.RecoveryStamina * Time.deltaTime;
-            Owner.stat.Stamina = Mathf.Min(Owner.stat.Stamina, Owner.stat.MaxStamina);
-        }
-        _characterController.Move(dir * Speed * Time.deltaTime);
     }
 }

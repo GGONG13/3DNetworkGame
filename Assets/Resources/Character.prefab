@@ -878,6 +878,7 @@ GameObject:
   - component: {fileID: 2103723301634874167}
   - component: {fileID: -7569532912663958509}
   - component: {fileID: 3078142259059047255}
+  - component: {fileID: 647474502156418633}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -1003,7 +1004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat:
     Health: 0
-    MaxHealth: 100
+    MaxHealth: 40
     Stamina: 0
     MaxStamina: 100
     RunConsumeStamina: 10
@@ -1014,6 +1015,7 @@ MonoBehaviour:
     AttactCoolTime: 1
     AttackConsumeStamina: 20
     Damage: 10
+  currentState: 0
 --- !u!114 &8957952749256968865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1139,6 +1141,19 @@ MonoBehaviour:
   Duration: 0.5
   Strength: 0.2
   TargetTransform: {fileID: 781624441698676598}
+--- !u!114 &647474502156418633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983387060860221199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a7449f3f66c564cb25bb438a9fc924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnPoints: []
 --- !u!1 &2241569729257858250
 GameObject:
   m_ObjectHideFlags: 0

@@ -72,6 +72,7 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_New.cs" />
     <Compile Include="Assets\02. Scripts\Weapon\Weapon.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterMoveAbility.cs" />
+    <Compile Include="Assets\02. Scripts\Character\CharacterRandomSpawner.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatGui.cs" />
     <Compile Include="Assets\02. Scripts\Common\Stat.cs" />
