@@ -1,11 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 using Photon.Pun;
-using Photon.Realtime;
-using UnityEditor;
-using UnityEngine.UIElements;
 
 public class CharacterAttackAbility : CharacterAbility
 {
@@ -25,6 +20,8 @@ public class CharacterAttackAbility : CharacterAbility
     public GameObject HitPrefabs;
     // 때린 애들을 기억하는 리스트
     private List<IDamaged> _damagedList = new List<IDamaged>();
+
+
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -67,7 +64,7 @@ public class CharacterAttackAbility : CharacterAbility
         //           + 인터페이스
         // 수정에는 닫혀있고, 확장에는 열려있다.
 
-        Vector3 hitPosition = (other.transform.position + transform.position) / 2f;
+
         IDamaged obj = other.GetComponent<IDamaged>();
         if (obj != null)
         {
@@ -82,18 +79,20 @@ public class CharacterAttackAbility : CharacterAbility
             PhotonView photonView = other.GetComponent<PhotonView>();
             if (photonView != null) 
             {
+                Vector3 hitPosition = (other.transform.position + transform.position) / 2f + new Vector3(0f, 1f, 0f);
                 photonView.RPC("Damaged", RpcTarget.All, Owner.stat.Damage);
                 // 그래서 포톤뷰, RPC로 다시 동기화 하는 것
-                photonView.RPC("HitEffect", RpcTarget.All, hitPosition);    
-
+                  photonView.RPC("HitEffect", RpcTarget.All, hitPosition);
+                // PhotonNetwork.Instantiate("HitPrefabs", hitPosition, Quaternion.identity);
             }
            // obj.Damaged(Owner.stat.Damage); 이렇게하면 제대로 동기화가 X
         }
     }
+
     [PunRPC]
-    public void HitEffect(Vector3 HitPosition)
+    public void HitEffect(Vector3 HitPos)
     {
-        Instantiate(HitPrefabs, HitPosition, Quaternion.identity);
+        Instantiate(HitPrefabs, HitPos, Quaternion.identity);
     }
     public void ActiveCollider()
     {

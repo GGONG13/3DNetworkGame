@@ -66,6 +66,8 @@
     <Compile Include="Assets\02. Scripts\Character\CharacterAbility.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\AppSettingsExtensions.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightIntensityFade.cs" />
+    <Compile Include="Assets\02. Scripts\UI\UI_DamagedEffect.cs" />
+    <Compile Include="Assets\02. Scripts\Character\CharacterShakeAbility.cs" />
     <Compile Include="Assets\02. Scripts\UI\UI_CharacterStat.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_New.cs" />
     <Compile Include="Assets\02. Scripts\Weapon\Weapon.cs" />

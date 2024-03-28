@@ -531,7 +531,7 @@ namespace Photon.Pun
                 {
                     var component = this.ObservedComponents[i];
                     if (component != null)
-                        DeserializeComponent(component, stream, info);
+                        DeserializeComponent(component, stream, info);  
                 }
             }
         }

@@ -1,9 +1,4 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -11,8 +6,6 @@ using static UnityEngine.UI.GridLayoutGroup;
 // 캐릭터 컨트롤러가 달려있어야만 이 해당 스크립트가 실행 됨
 public class CharacterMoveAbility : CharacterAbility
 {
-
-
     // 목표: W,A,S,D 및 방향키를 누르면 캐릭터를 그 방향으로 이동시키고 싶다.
 
     private float _gravity = -10;
