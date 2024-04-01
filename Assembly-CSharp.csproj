@@ -72,6 +72,7 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_New.cs" />
     <Compile Include="Assets\02. Scripts\Weapon\Weapon.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterMoveAbility.cs" />
+    <Compile Include="Assets\02. Scripts\Env\Campfire.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterRandomSpawner.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatGui.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Assets\02. Scripts\Character\Character.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RotateCamera.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterCanvasAbility.cs" />
+    <Compile Include="Assets\02. Scripts\Common\State.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoDestructShuriken.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterRotateAbility.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Assets\02. Scripts\Character\CharacterAttackAbility.cs" />
     <Compile Include="Assets\Photon\PhotonLibs\WebSocket\SocketWebTcp.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
+    <Compile Include="Assets\02. Scripts\Scene\BattleScene.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextButtonTransition.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_Translate.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
