@@ -44,6 +44,14 @@ MonoBehaviour:
   - HitEffect
   - Die
   - Respawner
+  - AddLog
+  - Death
+  - Live
+  - PlayMotion
+  - DropItems
+  - MakeItem
+  - Create
+  - Delete
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,14 +1,8 @@
 using Cinemachine;
 using Photon.Pun;
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-public enum CharacterState
-{
-    Live,
-    Death
-}
+
 [RequireComponent(typeof(CharacterMoveAbility))]
 [RequireComponent(typeof(CharacterRotateAbility))]
 [RequireComponent(typeof(CharacterAttackAbility))]
@@ -16,12 +10,12 @@ public enum CharacterState
 public class Character : MonoBehaviour, IPunObservable, IDamaged
 {
     public Stat stat;
-    public CharacterState currentState = CharacterState.Live;
+    public State State { get; private set; } = State.Live;
     public PhotonView Photonview { get; private set; }
     private Vector3 _receivedPosition;
     private Quaternion _receivedRotaion;
     private Animator _animator;
-    private bool _isRespwning = false;
+
     private void Awake()
     {
         stat.Init();
@@ -33,7 +27,10 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
             CharacterMinimap.instance.MyCharacter = this;
         }
     }
-
+    private void Start()
+    {
+        SetRandomPositionAndRotation();
+    }
     private void Update()
     {
         if (!Photonview.IsMine)
@@ -53,7 +50,7 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
             stream.SendNext(transform.rotation);
             stream.SendNext(stat.Health);
             stream.SendNext(stat.Stamina);
-            stream.SendNext(currentState == CharacterState.Death);
+
         }
         else if (stream.IsReading) // 데이터를 수신하는 상황
         {
@@ -65,72 +62,109 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
                 stat.Health = (int)stream.ReceiveNext();
                 stat.Stamina = (float)stream.ReceiveNext();
             }
-            bool isDead = (bool)stream.ReceiveNext(); // 죽음 상태 수신
-            currentState = isDead ? CharacterState.Death : CharacterState.Live;
         }
         // info는 송수신 성공/실패 여부에 대한 메세지가 담겨있다.
     }
     [PunRPC]
-    public void Damaged (int damage)
+    public void AddLog(string logMessage)
     {
-        if (currentState == CharacterState.Death)
+        UI_RoomInfo.Instance.AddLog(logMessage);
+    }
+    [PunRPC]
+    public void Damaged(int damage, int actorNumber)
+    {
+        if (State == State.Death)
         {
-            return; 
+            return;
         }
+        stat.Health -= damage;
         GetComponent<CharacterShakeAbility>().Shake();
-        if (Photonview.IsMine)
-        {
-            stat.Health -= damage;
-            UI_DamagedEffect.Instance.Show(0.5f);
-            if (TryGetComponent<CinemachineImpulseSource>(out CinemachineImpulseSource cinemachineImpulseSource))
-            {
-                float strength = 0.2f;
-                cinemachineImpulseSource.GenerateImpulseWithVelocity(UnityEngine.Random.insideUnitSphere.normalized * strength);
-            }
-        }
         if (stat.Health <= 0)
         {
-            stat.Health = 0;
-            Debug.Log("죽어라");
-            _animator.SetTrigger("Death");
-            currentState = CharacterState.Death;
-            Photonview.RPC("Die", RpcTarget.All);
-            StartCoroutine(Respawn_Coroutine());
+            State = State.Death;
+
+            if (Photonview.IsMine)
+            {
+                OnDeath(actorNumber);
+            }
+
+            Photonview.RPC(nameof(Death), RpcTarget.All);
         }
-    }
-    [PunRPC]
-    public void Die()
-    {
-        if (_animator != null)
-        {
-            _animator.SetTrigger("Death");
-            currentState = CharacterState.Death;
-        }
-    }
-    IEnumerator Respawn_Coroutine()
-    {
-        yield return new WaitForSeconds(5);
-        Photonview.RPC("Respawner", RpcTarget.All);
-      //  int index = UnityEngine.Random.Range(0, CharacterRandomSpawner.Instance.SpawnPoints.Length);
-    }
-    [PunRPC]
-    public void Respawner()
-    {
-        _animator.SetTrigger("Getup");
         if (Photonview.IsMine)
         {
-            CharacterRandomSpawner spawnManager = FindObjectOfType<CharacterRandomSpawner>();
-            if (spawnManager.SpawnPoints.Length > 0)
-            {
-                int number = UnityEngine.Random.Range(0, spawnManager.SpawnPoints.Length);
-                Vector3 spawnPosition = spawnManager.SpawnPoints[number].position;
-                this.transform.position = spawnPosition;
-            }
-            stat.Health = stat.MaxHealth;
-            stat.Stamina = stat.MaxStamina;
-            currentState = CharacterState.Live;
+   
+            OnDamagedMine();
         }
-        _animator.SetTrigger("Idle");
-    }    
+    }
+    private void OnDeath(int actorNumber)
+    {
+        if (actorNumber >= 0)
+        {
+            string nickname = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).NickName;
+            string logMessage = $"\n{nickname}님이 {Photonview.Owner.NickName}을 처치하였습니다.";
+            Photonview.RPC(nameof(AddLog), RpcTarget.All, logMessage);
+        }
+        else
+        {
+            string logMessage = $"\n{Photonview.Owner.NickName}이 운명을 다했습니다.";
+            Photonview.RPC(nameof(AddLog), RpcTarget.All, logMessage);
+        }
+    }
+
+    private void OnDamagedMine()
+    {
+        // 카메라 흔들기 위해 Impulse를 발생시킨다.
+        CinemachineImpulseSource impulseSource;
+        if (TryGetComponent<CinemachineImpulseSource>(out impulseSource))
+        {
+            float strength = 0.4f;
+            impulseSource.GenerateImpulseWithVelocity(UnityEngine.Random.insideUnitSphere.normalized * strength);
+        }
+
+        UI_DamagedEffect.Instance.Show(0.5f);
+    }
+
+    [PunRPC]
+    private void Death()
+    {
+        State = State.Death;
+
+        GetComponent<Animator>().SetTrigger("Death");
+        GetComponent<CharacterAttackAbility>().InactiveCollider();
+
+        if (Photonview.IsMine)
+        {
+            ItemObjectFactory.Instance.RequestCreate(ItemType.HealthPotion, transform.position);
+            ItemObjectFactory.Instance.RequestCreate(ItemType.StaminaPotion, transform.position);
+
+            StartCoroutine(Death_Coroutine());
+        }
+    }
+ 
+
+    private IEnumerator Death_Coroutine()
+    {
+        yield return new WaitForSeconds(5f);
+
+        SetRandomPositionAndRotation();
+
+        Photonview.RPC(nameof(Live), RpcTarget.All);
+    }
+
+    private void SetRandomPositionAndRotation()
+    {
+        Vector3 spawnPoint = BattleScene.Instance.GetRandomSpawnPoint();
+        GetComponent<CharacterMoveAbility>().Teleport(spawnPoint);
+        GetComponent<CharacterRotateAbility>().SetRandomRotation();
+    }
+    [PunRPC]
+    private void Live()
+    {
+        State = State.Live;
+
+        stat.Init();
+
+        GetComponent<Animator>().SetTrigger("Live");
+    }
 }
 

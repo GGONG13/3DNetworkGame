@@ -4,7 +4,7 @@ public class CharacterMinimap : MonoBehaviour
 {
     public static CharacterMinimap instance { get; private set; }
     public Character MyCharacter;
-
+    public GameObject Target;
 
 
     public float YDistance = 10f;

@@ -14263,6 +14263,7 @@ GameObject:
   - component: {fileID: 198796712453205768}
   - component: {fileID: 199979416329716090}
   - component: {fileID: 7598861448113732418}
+  - component: {fileID: 2500768815642754399}
   m_Layer: 0
   m_Name: CFX3_Fire_Shield
   m_TagString: Untagged
@@ -14296,7 +14297,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727626132299242}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 0.3
   simulationSpeed: 1
   stopAction: 2
   cullingMode: 3
@@ -14371,7 +14372,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 0.2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -14506,7 +14507,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2.5
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -18976,6 +18977,18 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &2500768815642754399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727626132299242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701b288580e2aa24c878daa37d4a884b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1930125201661818
 GameObject:
   m_ObjectHideFlags: 0

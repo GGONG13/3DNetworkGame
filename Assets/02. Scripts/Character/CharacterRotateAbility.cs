@@ -12,6 +12,7 @@ public class CharacterRotateAbility : CharacterAbility
     {
         if (Owner.Photonview.IsMine)
         {
+            CharacterMinimap.instance.Target = this.gameObject;
             GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
         }
     }
@@ -32,5 +33,10 @@ public class CharacterRotateAbility : CharacterAbility
         // 3. 카메라 3인칭과 캐릭터를 회전방향으로 회전시킨다.
         transform.eulerAngles = new Vector3(0, _mx, 0);
         CameraRoot.localEulerAngles = new Vector3(-_my, 0, 0);
+    }
+    public void SetRandomRotation()
+    {
+        _mx = UnityEngine.Random.Range(0, 360);
+        _my = 0;
     }
 }

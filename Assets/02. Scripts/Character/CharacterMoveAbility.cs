@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -13,6 +15,9 @@ public class CharacterMoveAbility : CharacterAbility
     private CharacterController _characterController;
     private Animator _animator;
     private Character _character;
+    public float JumpPower = 3f;
+
+    public bool IsJumping => !_characterController.isGrounded;
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -21,12 +26,10 @@ public class CharacterMoveAbility : CharacterAbility
     }
     private void Update()
     {
-        if (!Owner.Photonview.IsMine)
+        if (Owner.State == State.Death || !Owner.Photonview.IsMine)
         {
             return;
         }
-        if (_character.currentState == CharacterState.Live)
-        {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
@@ -54,7 +57,37 @@ public class CharacterMoveAbility : CharacterAbility
                 Owner.stat.Stamina += Owner.stat.RecoveryStamina * Time.deltaTime;
                 Owner.stat.Stamina = Mathf.Min(Owner.stat.Stamina, Owner.stat.MaxStamina);
             }
-            _characterController.Move(dir * Speed * Time.deltaTime);
+        bool haveJumpStamina = Owner.stat.Stamina >= Owner.stat.JumpConsumStamina;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Owner.stat.Stamina -= 20;
+            _yVelocity = JumpPower;
+          //  _animator.SetTrigger("Jump");
+            if (Owner.stat.Stamina <= 0)
+            {
+                _yVelocity = -10;
+                _animator.SetFloat("Move", 0);
+            }
         }
+        if (_characterController.isGrounded && _yVelocity < 0)
+        {
+            _yVelocity = 0;
+        }
+
+        if (IsJumping && Input.GetMouseButtonDown(0) && !_characterController.isGrounded) 
+        {
+            _animator.SetTrigger("Attack4");
+        }
+        _characterController.Move(dir * Speed * Time.deltaTime);
+
+
+    }
+    public void Teleport(Vector3 position)
+    {
+        _characterController.enabled = false;
+
+        transform.position = position;
+
+        _characterController.enabled = true;
     }
 }
