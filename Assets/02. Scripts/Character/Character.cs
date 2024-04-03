@@ -1,4 +1,5 @@
 using Cinemachine;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using System.Collections;
 using UnityEngine;
@@ -30,6 +31,17 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
     private void Start()
     {
         SetRandomPositionAndRotation();
+        ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+        hashtable.Add("Score", 0);
+        hashtable.Add("KillCount", 0);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+    }
+
+    public void AddScore(int score)
+    {
+        ExitGames.Client.Photon.Hashtable MyHashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+        MyHashtable["Score"] = (int)MyHashtable["Score"] + score;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(MyHashtable);
     }
     private void Update()
     {
@@ -134,13 +146,37 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
 
         if (Photonview.IsMine)
         {
-            ItemObjectFactory.Instance.RequestCreate(ItemType.HealthPotion, transform.position);
-            ItemObjectFactory.Instance.RequestCreate(ItemType.StaminaPotion, transform.position);
+            DropItems();
 
             StartCoroutine(Death_Coroutine());
         }
     }
- 
+    public int Score = 0;
+    private void DropItems()
+    {/*- 70%: Player 스크립트에 점수가 있고 먹으면 점수가 1점씩 오른다. (3~5개 랜덤 생성)
+            - (score 변수는 일단 Character에 생성)
+        - 20%: 먹으면 체력이 꽉차는 아이템 1개
+            - 10%: 먹으면 스태미나 꽉차는 아이템 1개*/
+        // 팩토리패턴: 객체 생성과 사용 로직을 분리해서 캡슐화하는 패턴
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        if (randomValue > 30)      // 70%
+        {
+            int randomCount = UnityEngine.Random.Range(10, 30);
+            for (int i = 0; i < randomCount; ++i)
+            {
+                ItemObjectFactory.Instance.RequestCreate(ItemType.ScoreStone, transform.position);
+            }
+        }
+        else if (randomValue > 10) // 20%
+        {
+            ItemObjectFactory.Instance.RequestCreate(ItemType.HealthPotion, transform.position);
+        }
+        else                       // 10%
+        {
+            ItemObjectFactory.Instance.RequestCreate(ItemType.StaminaPotion, transform.position);
+        }
+    }
+
 
     private IEnumerator Death_Coroutine()
     {

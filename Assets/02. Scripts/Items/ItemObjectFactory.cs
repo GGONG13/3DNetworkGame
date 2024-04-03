@@ -1,12 +1,28 @@
 using Photon.Pun;
 using UnityEngine;
 
+[RequireComponent(typeof(PhotonView))]
 public class ItemObjectFactory : MonoBehaviourPun
 {
     public static ItemObjectFactory Instance { get; private set; }
+
+   
     private void Awake()
     {
         Instance = this;
+    }
+    private void Start()
+    {
+      // Debug.LogError($"viewID: {photonView.ViewID}");
+    }
+    public ItemObject MasterCreate(ItemType type, Vector3 position)
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+           // Debug.LogError("[MasterCreate] 마스터 클라이언트만 호출 할 수 있습니다.");
+            return null;
+        }
+        return Create(type, position);
     }
     public void RequestCreate(ItemType itemType, Vector3 position)
     {
@@ -20,10 +36,11 @@ public class ItemObjectFactory : MonoBehaviourPun
         }
     }
     [PunRPC]
-    private void Create(ItemType itemType, Vector3 position)
+    private ItemObject Create(ItemType itemType, Vector3 position)
     {
         Vector3 dropPos = position + new Vector3(0, 0.5f, 0) + UnityEngine.Random.insideUnitSphere;
-        PhotonNetwork.Instantiate(itemType.ToString(), dropPos, Quaternion.identity);
+        GameObject gameObject = PhotonNetwork.InstantiateRoomObject(itemType.ToString(), dropPos, Quaternion.identity);
+        return gameObject.GetComponent<ItemObject>();
     }
     public void RequestDelete(int viewID)
     {

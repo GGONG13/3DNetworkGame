@@ -1160,6 +1160,7 @@ MonoBehaviour:
     Damage: 10
     JumpPower: 3
     JumpConsumStamina: 5
+  Score: 0
 --- !u!1 &2241569729257858250
 GameObject:
   m_ObjectHideFlags: 0

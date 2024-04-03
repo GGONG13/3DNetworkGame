@@ -85,11 +85,30 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.MaxPlayers}");
         CharacterRandomSpawner spawnManager = FindObjectOfType<CharacterRandomSpawner>();
 
-        int index = Random.Range(0, spawnManager.SpawnPoints.Length);
-        Vector3 spawnPosition = spawnManager.SpawnPoints[index].position;
-        spawnPosition.y = 0; // 지면 높이에 맞춰 y 값 조정
+        if (spawnManager.SpawnPoints.Length > 0)
+        {
+            int index = Random.Range(0, spawnManager.SpawnPoints.Length);
 
-        PhotonNetwork.Instantiate(nameof(Character), spawnPosition, Quaternion.identity);
+            Vector3 spawnPosition = spawnManager.SpawnPoints[index].position;
+            spawnPosition.y = 0; // 지면 높이에 맞춰 y 값 조정
+            PhotonNetwork.Instantiate(nameof(Character), spawnPosition, Quaternion.identity);
+        }
+
+/*        GameObject[] ItemPrefabs = Resources.LoadAll<GameObject>("ScoreStones");
+        Debug.Log($"{ItemPrefabs.Length}");
+        for (int i = 0; i < 20; i++)
+        {
+            int randomIndex = Random.Range(0, ItemPrefabs.Length);
+            Debug.Log($"Random Index: {randomIndex}");
+            GameObject ItemPbs = ItemPrefabs[randomIndex];
+            Debug.Log($"{ItemPbs.name}");
+
+            Vector3 randomPosition = Random.insideUnitSphere * 50;
+            randomPosition.y = 0;
+
+
+            PhotonNetwork.Instantiate(ItemPrefabs[randomIndex].name, randomPosition, Quaternion.identity);
+        }*/
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

@@ -1,5 +1,6 @@
 public enum ItemType
 {
     HealthPotion,
-    StaminaPotion
+    StaminaPotion,
+    ScoreStone
 }
