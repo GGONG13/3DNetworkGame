@@ -1,8 +1,10 @@
 using Cinemachine;
 using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 [RequireComponent(typeof(CharacterMoveAbility))]
 [RequireComponent(typeof(CharacterRotateAbility))]
@@ -11,12 +13,13 @@ using UnityEngine;
 public class Character : MonoBehaviour, IPunObservable, IDamaged
 {
     public Stat stat;
+   // public GameObject Weapon;
     public State State { get; private set; } = State.Live;
     public PhotonView Photonview { get; private set; }
     private Vector3 _receivedPosition;
     private Quaternion _receivedRotaion;
     private Animator _animator;
-
+    private int _halfScore;
     private void Awake()
     {
         stat.Init();
@@ -30,18 +33,48 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
     }
     private void Start()
     {
+        if (!Photonview.IsMine)
+        {
+            return;
+        }
+
         SetRandomPositionAndRotation();
+        
         ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add("Score", 0);
         hashtable.Add("KillCount", 0);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
     }
-
-    public void AddScore(int score)
+    [PunRPC]
+    public void AddPropertyIntValue(string key, int value)
     {
         ExitGames.Client.Photon.Hashtable MyHashtable = PhotonNetwork.LocalPlayer.CustomProperties;
-        MyHashtable["Score"] = (int)MyHashtable["Score"] + score;
+        int currentValue = MyHashtable.ContainsKey(key) ? (int)MyHashtable[key] : 0;
+        MyHashtable[key] = currentValue + value;
         PhotonNetwork.LocalPlayer.SetCustomProperties(MyHashtable);
+    }
+    [PunRPC]
+    public void SetPropertyIntValue(string key, int value)
+    {
+        ExitGames.Client.Photon.Hashtable MyHashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+        MyHashtable[key] = value;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(MyHashtable);
+        GetComponent<CharacterAttackAbility>().RefrechWeaponScale();
+    }
+    [PunRPC]
+    public int GetPropertyIntValue(string key)
+    {
+        ExitGames.Client.Photon.Hashtable MyHashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+        return (int)MyHashtable[key];
+    }
+
+    [PunRPC]
+    private void IncreaseKillCount(PhotonView killerPhotonView)
+    {
+        int currentKillCount = (int)PhotonNetwork.LocalPlayer.CustomProperties["KillCount"];
+        ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
+        hash["KillCount"] = currentKillCount + 1;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
     private void Update()
     {
@@ -82,6 +115,7 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
     {
         UI_RoomInfo.Instance.AddLog(logMessage);
     }
+
     [PunRPC]
     public void Damaged(int damage, int actorNumber)
     {
@@ -94,13 +128,26 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
         if (stat.Health <= 0)
         {
             State = State.Death;
-
+          //  PhotonView killerPhotonView = PhotonView.Find(actorNumber);
             if (Photonview.IsMine)
             {
                 OnDeath(actorNumber);
             }
-
             Photonview.RPC(nameof(Death), RpcTarget.All);
+            //IncreaseKillCount(killerPhotonView);
+/*            if (killerPhotonView != null && killerPhotonView.IsMine)
+            {
+                int victimScore = (int)PhotonNetwork.LocalPlayer.CustomProperties["Score"];
+                int scoreToGain = victimScore / 2;
+
+                AddScore(scoreToGain);
+
+                ScatterScoreObjects(victimScore - scoreToGain, transform.position);
+
+                ExitGames.Client.Photon.Hashtable victimProps = new ExitGames.Client.Photon.Hashtable { { "Score", scoreToGain } };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(victimProps);
+            }*/
+
         }
         if (Photonview.IsMine)
         {
@@ -108,13 +155,37 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
             OnDamagedMine();
         }
     }
+    [PunRPC]
+    void ScatterScoreObjects(int scoreAmount, Vector3 position)
+    {
+        int objectsToCreate = scoreAmount / 10; // 생성할 오브젝트 수, 예를 들어 점수 1당 오브젝트 1개로 가정
+
+        for (int i = 0; i < objectsToCreate; i++)
+        {
+            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * 5; // 무작위 방향
+            Vector3 spawnPosition = position + randomDirection;
+            PhotonNetwork.Instantiate(ItemType.ScoreStone.ToString(), spawnPosition, Quaternion.identity);
+        }
+    }
+
     private void OnDeath(int actorNumber)
     {
+        if (!Photonview.IsMine)
+        {
+            return;
+        }
+        int _halfScore = GetPropertyIntValue("Score");
+        SetPropertyIntValue("Score", 0);
+        ScatterScoreObjects(_halfScore, transform.position);
         if (actorNumber >= 0)
         {
             string nickname = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).NickName;
             string logMessage = $"\n{nickname}님이 {Photonview.Owner.NickName}을 처치하였습니다.";
             Photonview.RPC(nameof(AddLog), RpcTarget.All, logMessage);
+
+            Player targetPlayer = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+            Photonview.RPC(nameof(AddPropertyIntValue), targetPlayer, "Score", _halfScore);
+            Photonview.RPC(nameof(AddPropertyIntValue), targetPlayer, "KillCount", 1);
         }
         else
         {
@@ -135,7 +206,7 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
 
         UI_DamagedEffect.Instance.Show(0.5f);
     }
-
+    public int Score = 0;
     [PunRPC]
     private void Death()
     {
@@ -149,9 +220,9 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
             DropItems();
 
             StartCoroutine(Death_Coroutine());
-        }
+        } 
     }
-    public int Score = 0;
+
     private void DropItems()
     {/*- 70%: Player 스크립트에 점수가 있고 먹으면 점수가 1점씩 오른다. (3~5개 랜덤 생성)
             - (score 변수는 일단 Character에 생성)
@@ -161,7 +232,7 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
         int randomValue = UnityEngine.Random.Range(0, 100);
         if (randomValue > 30)      // 70%
         {
-            int randomCount = UnityEngine.Random.Range(10, 30);
+            int randomCount = _halfScore / 100;
             for (int i = 0; i < randomCount; ++i)
             {
                 ItemObjectFactory.Instance.RequestCreate(ItemType.ScoreStone, transform.position);

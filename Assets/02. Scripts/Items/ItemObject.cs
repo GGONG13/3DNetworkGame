@@ -27,8 +27,6 @@ public class ItemObject : MonoBehaviourPun
         if (other.CompareTag("Player")) 
         {
             Character character = other.GetComponent<Character>();
-            Debug.Log($"{character}");
-
             if (!character.Photonview.IsMine || character.State == State.Death)
             {
                 return;
@@ -38,7 +36,6 @@ public class ItemObject : MonoBehaviourPun
                 case ItemType.HealthPotion:
                 {
                     character.stat.Health += (int)Value;
-                    Debug.Log("헬스스탯 올라감?");
                     if (character.stat.Health > character.stat.MaxHealth)
                     {
                         character.stat.Health = character.stat.MaxHealth;
@@ -48,7 +45,6 @@ public class ItemObject : MonoBehaviourPun
                 case ItemType.StaminaPotion: 
                 {
                     character.stat.Stamina += (int)Value;
-                    Debug.Log("스태미나스탯 올라감?");
                     if (character.stat.Stamina > character.stat.MaxStamina)
                     {
                         character.stat.Stamina = character.stat.MaxStamina;
@@ -58,7 +54,7 @@ public class ItemObject : MonoBehaviourPun
                 case ItemType.ScoreStone:
                 {
                     // character.Score += (int)Value;
-                    character.AddScore((int)Value);
+                    character.AddPropertyIntValue("Score", (int)Value);
                     break;
                 }
             }

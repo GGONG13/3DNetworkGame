@@ -13,6 +13,7 @@ public class UI_PlayerRankingSlot : MonoBehaviour
     {
         RankingTextUI.text = "-";
         NicknameTextUI.text = player.NickName;
+
         if (player.CustomProperties != null)
         {
             KillCountTextUI.text = $"{player.CustomProperties["KillCount"]}";

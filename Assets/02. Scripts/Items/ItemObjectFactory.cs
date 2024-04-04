@@ -11,10 +11,6 @@ public class ItemObjectFactory : MonoBehaviourPun
     {
         Instance = this;
     }
-    private void Start()
-    {
-      // Debug.LogError($"viewID: {photonView.ViewID}");
-    }
     public ItemObject MasterCreate(ItemType type, Vector3 position)
     {
         if (!PhotonNetwork.IsMasterClient)

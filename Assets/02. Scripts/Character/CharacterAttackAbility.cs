@@ -17,11 +17,19 @@ public class CharacterAttackAbility : CharacterAbility
     private float _timer;
     private Character _character;
     public Collider WeaponCollider;
+    public GameObject WeaponObject;
+
     public GameObject HitPrefabs;
     // 때린 애들을 기억하는 리스트
     private List<IDamaged> _damagedList = new List<IDamaged>();
 
-
+    public void RefrechWeaponScale()
+    {
+        int score = Owner.GetPropertyIntValue("Score");
+        float scale = 1f;
+        scale += (score / 1000) * 0.1f;
+        WeaponObject.transform.localScale = new Vector3(scale, scale, scale);
+    }
     void Start()
     {
         _animator = GetComponent<Animator>();

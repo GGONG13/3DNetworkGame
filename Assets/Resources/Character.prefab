@@ -989,6 +989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponCollider: {fileID: 4003430499259094253}
+  WeaponObject: {fileID: 6951329216427337629}
   HitPrefabs: {fileID: 1727626132299242, guid: b0bc1b6b391734647b9bb142bafc0819, type: 3}
 --- !u!114 &-7569532912663958509
 MonoBehaviour:
@@ -1130,6 +1131,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: Attack4
+  - Type: 9
+    SynchronizeType: 0
+    Name: Live
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -2611,6 +2615,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8566726943768842186}
+  - component: {fileID: 4417635440004079356}
   m_Layer: 0
   m_Name: weapon_r
   m_TagString: Untagged
@@ -2634,6 +2639,28 @@ Transform:
   - {fileID: 4208999042297532722}
   m_Father: {fileID: 1722497857896361421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4417635440004079356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6951329216427337629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7041600114064355168
 GameObject:
   m_ObjectHideFlags: 0

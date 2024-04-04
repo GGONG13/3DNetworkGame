@@ -79,8 +79,6 @@ public class CharacterMoveAbility : CharacterAbility
             _animator.SetTrigger("Attack4");
         }
         _characterController.Move(dir * Speed * Time.deltaTime);
-
-
     }
     public void Teleport(Vector3 position)
     {
