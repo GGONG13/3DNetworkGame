@@ -58,6 +58,8 @@ MonoBehaviour:
   - GetPropertyIntValue
   - SetPropertyIntValue
   - MonsterAttackAni
+  - PlayAttackAnimation
+  - RequestPlayAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -59,7 +59,7 @@ public class Character : MonoBehaviour, IPunObservable, IDamaged
         ExitGames.Client.Photon.Hashtable MyHashtable = PhotonNetwork.LocalPlayer.CustomProperties;
         MyHashtable[key] = value;
         PhotonNetwork.LocalPlayer.SetCustomProperties(MyHashtable);
-        GetComponent<CharacterAttackAbility>().RefrechWeaponScale();
+        GetComponent<CharacterAttackAbility>().RefreshWeaponScale();
     }
     [PunRPC]
     public int GetPropertyIntValue(string key)

@@ -990,7 +990,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponCollider: {fileID: 4003430499259094253}
   WeaponObject: {fileID: 6951329216427337629}
-  HitPrefabs: {fileID: 1727626132299242, guid: b0bc1b6b391734647b9bb142bafc0819, type: 3}
 --- !u!114 &-7569532912663958509
 MonoBehaviour:
   m_ObjectHideFlags: 0
