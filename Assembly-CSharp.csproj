@@ -68,6 +68,8 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterAbility.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\AppSettingsExtensions.cs" />
+    <Compile Include="Assets\02. Scripts\UI\UI_Room.cs" />
+    <Compile Include="Assets\02. Scripts\UI\UI_RoomList.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\02. Scripts\UI\UI_DamagedEffect.cs" />
     <Compile Include="Assets\02. Scripts\UI\UI_RoomInfo.cs" />
@@ -100,9 +102,11 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RotateCamera.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterCanvasAbility.cs" />
     <Compile Include="Assets\02. Scripts\Common\State.cs" />
+    <Compile Include="Assets\02. Scripts\TerrainCircleDrawer.cs" />
     <Compile Include="Assets\02. Scripts\Items\PotionManager.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoDestructShuriken.cs" />
     <Compile Include="Assets\02. Scripts\Common\ParticleDie.cs" />
+    <Compile Include="Assets\02. Scripts\UI\UI_Lobby.cs" />
     <Compile Include="Assets\02. Scripts\Character\CharacterRotateAbility.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
     <Compile Include="Assets\02. Scripts\Items\ItemObject.cs" />

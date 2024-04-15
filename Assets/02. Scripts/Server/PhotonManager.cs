@@ -50,9 +50,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log("마스터 서버 접속 성공");
         Debug.Log($"InLobby?: {PhotonNetwork.InLobby}");
 
-        PhotonNetwork.JoinLobby();
         // 기본 호텔의 로비에 들어가겠다.
-        // 로비: 매치케이킹 (방 목록, 방생성, 방 입장)
+        // 로비: 매치매이킹:(방 목록, 방 생성, 방 입장)
+        // - 로비 이름
+        // - 룸 목록, 룸 개수
+        // - 플레이어 수 
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
     public override void OnJoinedLobby()
     {
@@ -62,11 +65,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
        //  PhotonNetwork.CreatRoom();  방을 만드는 것
        // PhotonNetwork.JoinRoom();    방에 입장하느 것
        // PhotonNetwork.JoinRandomRoom();  랜덤한 방에 입장하는 것
-        RoomOptions roomOptions = new RoomOptions();
+/*        RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 20;  // 입장 가능한 최대 플레이어 수
         roomOptions.IsVisible = true; // 로비에서 방 목록에 노출할 것인가?
         roomOptions.IsOpen = true;
-        PhotonNetwork.JoinOrCreateRoom("test", roomOptions, TypedLobby.Default); // 방이 있다면 입장하고 없다면 만드는것
+        PhotonNetwork.JoinOrCreateRoom("test", roomOptions, TypedLobby.Default); */// 방이 있다면 입장하고 없다면 만드는것
        // PhotonNetwork.JoinRandomOrCreateRoom(); // 랜덤한 방에 있거나 없다면 만ㄷ는 것
     }
 
@@ -83,8 +86,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.Name}");
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.PlayerCount}");
         Debug.Log($"RoomName : {PhotonNetwork.CurrentRoom.MaxPlayers}");
-        CharacterRandomSpawner spawnManager = FindObjectOfType<CharacterRandomSpawner>();
-
+/*        CharacterRandomSpawner spawnManager = FindObjectOfType<CharacterRandomSpawner>();
         if (spawnManager.SpawnPoints.Length > 0)
         {
             int index = Random.Range(0, spawnManager.SpawnPoints.Length);
@@ -92,23 +94,24 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             Vector3 spawnPosition = spawnManager.SpawnPoints[index].position;
             spawnPosition.y = 0; // 지면 높이에 맞춰 y 값 조정
             PhotonNetwork.Instantiate(nameof(Character), spawnPosition, Quaternion.identity);
-        }
-
-/*        GameObject[] ItemPrefabs = Resources.LoadAll<GameObject>("ScoreStones");
-        Debug.Log($"{ItemPrefabs.Length}");
-        for (int i = 0; i < 20; i++)
-        {
-            int randomIndex = Random.Range(0, ItemPrefabs.Length);
-            Debug.Log($"Random Index: {randomIndex}");
-            GameObject ItemPbs = ItemPrefabs[randomIndex];
-            Debug.Log($"{ItemPbs.name}");
-
-            Vector3 randomPosition = Random.insideUnitSphere * 50;
-            randomPosition.y = 0;
-
-
-            PhotonNetwork.Instantiate(ItemPrefabs[randomIndex].name, randomPosition, Quaternion.identity);
         }*/
+        PhotonNetwork.LoadLevel("BattleScene");
+
+        /*        GameObject[] ItemPrefabs = Resources.LoadAll<GameObject>("ScoreStones");
+                Debug.Log($"{ItemPrefabs.Length}");
+                for (int i = 0; i < 20; i++)
+                {
+                    int randomIndex = Random.Range(0, ItemPrefabs.Length);
+                    Debug.Log($"Random Index: {randomIndex}");
+                    GameObject ItemPbs = ItemPrefabs[randomIndex];
+                    Debug.Log($"{ItemPbs.name}");
+
+                    Vector3 randomPosition = Random.insideUnitSphere * 50;
+                    randomPosition.y = 0;
+
+
+                    PhotonNetwork.Instantiate(ItemPrefabs[randomIndex].name, randomPosition, Quaternion.identity);
+                }*/
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
